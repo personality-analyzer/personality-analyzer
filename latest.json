@@ -1,0 +1,11 @@
+{
+  "version": "0.1.0",
+  "notes": "أول إصدار مع دعم التحديث التلقائي.",
+  "pub_date": "2026-07-25T14:41:21Z",
+  "platforms": {
+    "windows-x86_64": {
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVRS2NvNVJqSWdNc0hhT2xoaXRmalBjRTRsNjgvTDJhRzh3Rm9zK3ByUSthd0FPK2Y0TlhZckk1eis3WUx2aFU2RFc4ZUJ5Z09aUktjV3dGeHJSQTBtQ2RETktvKzBjYlEwPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzg0OTkwNDEzCWZpbGU62KfZhNmF2K3ZhNmEINin2YTYsNmD2Yog2YTZhNi02K7YtdmK2KlfMC4xLjBfeDY0LXNldHVwLmV4ZQp0WExYcEFhekUveHQ0TVI3MDkxR2hWVXFmemd4a3ZueTBOR1QzbHExM2JVWTlpMjRPMVRwTGFrdzdUYWxHK3RkTnFEUW4yK3A1MncyTi9VSWFlUFZBQT09Cg==",
+      "url": "https://github.com/USERNAME/REPO/releases/download/v0.1.0/personality-analyzer_0.1.0_x64-setup.exe"
+    }
+  }
+}

@@ -1,0 +1,24 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root { color-scheme: light dark; }
+body { margin: 0; font-family: 'Tajawal', system-ui, sans-serif; }
+
+/* السطح والنص عبر متغيرات تتبدل مع الوضع */
+.light body, .light #root { background: #f4f7f9; color: #0f172a; }
+.dark body, .dark #root { background: #0a1220; color: #e2e8f0; }
+
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-thumb { background: #94a3b855; border-radius: 6px; }
+
+.surface { background: var(--surface); border-color: var(--border); }
+.light { --surface:#ffffff; --surface-2:#f4f7f9; --border:#e2e8f0; --muted:#64748b; }
+.dark  { --surface:#111c30; --surface-2:#0a1220; --border:#233149; --muted:#7c8aa3; }
+
+.fade-in { animation: fade .35s ease; }
+@keyframes fade { from { opacity:0; transform: translateY(6px);} to {opacity:1; transform:none;} }
+
+.no-print { }
+@media print { .no-print { display: none !important; } }
+.line-clamp-2 { display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }

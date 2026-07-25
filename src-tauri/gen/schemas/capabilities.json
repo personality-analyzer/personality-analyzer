@@ -1,0 +1,1 @@
+{"default":{"identifier":"default","description":"الصلاحيات الافتراضية للنافذة الرئيسية","local":true,"windows":["main"],"permissions":["core:default","updater:default","process:default"]}}

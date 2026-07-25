@@ -1,0 +1,55 @@
+name: Release
+
+# يُطلق عند دفع وسم يبدأ بـ v مثل v0.1.0
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    permissions:
+      contents: write
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: 'windows-latest'
+            args: ''
+    runs-on: ${{ matrix.platform }}
+
+    steps:
+      - name: سحب الشيفرة
+        uses: actions/checkout@v4
+
+      - name: تهيئة Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: تثبيت Rust (stable)
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: تخزين مؤقت لـ Rust
+        uses: swatinem/rust-cache@v2
+        with:
+          workspaces: './src-tauri -> target'
+
+      - name: تثبيت اعتماديات الواجهة
+        run: npm ci
+
+      - name: البناء والتوقيع والإصدار
+        uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+        with:
+          tagName: ${{ github.ref_name }}
+          releaseName: 'المحلل الذكي للشخصية ${{ github.ref_name }}'
+          releaseBody: 'حمّل المُثبِّت من الأصول أدناه. سيُطبَّق التحديث تلقائياً للنسخ المثبّتة.'
+          releaseDraft: true
+          prerelease: false
+          includeUpdaterJson: true
+          args: ${{ matrix.args }}
