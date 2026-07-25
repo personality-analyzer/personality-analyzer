@@ -1,7 +1,7 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
   "productName": "المحلل الذكي للشخصية",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "identifier": "com.mohammed.personality-analyzer",
   "build": {
     "frontendDist": "../dist",
@@ -17,7 +17,7 @@
   },
   "plugins": {
     "updater": {
-      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEIwMEM4ODhDNTE4RTcyMEEKUldRS2NvNVJqSWdNc0lQa0htdE9oSXJKUnhJTUFXTjVzaXZyS3IzaUNPVkp6SEc5UUpYeml6c1UK",
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDI2ODZBQjNCNjY5MjEyM0MKUldROEVwSm1PNnVHSm8zaHZWN0xBR2dUREpjZEZ6eUcrempUdW5zNEZQb2ZYekhld3Y3RzN3U04K",
       "endpoints": [
         "https://github.com/personality-analyzer/personality-analyzer/releases/latest/download/latest.json"
       ]
