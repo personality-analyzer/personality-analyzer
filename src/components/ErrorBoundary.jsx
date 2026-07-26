@@ -12,7 +12,7 @@ export default class ErrorBoundary extends Component {
           <div style={{ fontSize: 40 }}>⚠️</div>
           <h2 style={{ color: '#b91c1c', margin: '10px 0' }}>حدث خطأ غير متوقّع</h2>
           <p style={{ color: '#64748b', fontSize: 14 }}>حاول إعادة المحاولة، أو حدّث الصفحة. تفاصيل الخطأ:</p>
-          <pre style={{ background: '#f1f5f9', padding: 12, borderRadius: 8, fontSize: 12, textAlign: 'left', overflow: 'auto', direction: 'ltr' }}>
+          <pre style={{ background: '#fee2e2', color: '#991b1b', border: '1px solid #fca5a5', padding: 12, borderRadius: 8, fontSize: 12, textAlign: 'left', overflow: 'auto', direction: 'ltr' }}>
             {String(this.state.error?.message || this.state.error)}
           </pre>
           <button onClick={this.reset} style={{ background: '#0e7490', color: '#fff', border: 'none', borderRadius: 10, padding: '10px 20px', fontFamily: 'inherit', fontWeight: 700, cursor: 'pointer' }}>

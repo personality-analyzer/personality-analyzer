@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { Search, Loader2, ExternalLink, GraduationCap } from 'lucide-react';
 import { Card, Button, Empty } from '../components/UI.jsx';
+import { useApp } from '../store/AppContext.jsx';
 
 // بحث علمي مجاني عبر OpenAlex (250M+ ورقة، بلا مفتاح، بكل اللغات)
 export default function ResearchTab() {
+  const { L } = useApp();
   const [q, setQ] = useState('');
   const [items, setItems] = useState(null);
   const [loading, setLoading] = useState(false);

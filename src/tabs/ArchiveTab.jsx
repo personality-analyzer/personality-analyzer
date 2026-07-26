@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Search, Loader2, ExternalLink, Archive } from 'lucide-react';
 import { Card, Button, Empty } from '../components/UI.jsx';
+import { useApp } from '../store/AppContext.jsx';
 
 const TYPES = [
   { id: '', label: 'الكل', en: 'All' },
@@ -12,6 +13,7 @@ const TYPES = [
 
 // بحث مجاني في أرشيف الإنترنت archive.org (بلا مفتاح)
 export default function ArchiveTab() {
+  const { L } = useApp();
   const [q, setQ] = useState('');
   const [type, setType] = useState('');
   const [items, setItems] = useState(null);
