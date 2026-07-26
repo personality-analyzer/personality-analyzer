@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, Button } from '../components/UI.jsx';
-import { KeyRound, Lock, Unlock, ShieldCheck, Trash2 } from 'lucide-react';
+import { KeyRound, Lock, Unlock, ShieldCheck, Trash2, RefreshCw, Loader2 } from 'lucide-react';
 import { hasKey } from '../services/ai.js';
 import { encryptKey, unlockKey, hasEncrypted, getSessionKey, forgetKey } from '../services/secureKey.js';
+import { getAppVersion, checkForUpdatesManual } from '../services/updater.js';
 import { useApp } from '../store/AppContext.jsx';
 
 const envKey = !!import.meta.env.VITE_ANTHROPIC_API_KEY;
@@ -15,6 +16,21 @@ export default function SettingsTab() {
   const [err, setErr] = useState('');
   const [, force] = useState(0);
   const refresh = () => force((n) => n + 1);
+
+  // التحديثات
+  const [version, setVersion] = useState(null);
+  const [checking, setChecking] = useState(false);
+  const [updMsg, setUpdMsg] = useState('');
+  useEffect(() => { getAppVersion().then(setVersion); }, []);
+  const checkUpdates = async () => {
+    setChecking(true); setUpdMsg('');
+    const r = await checkForUpdatesManual();
+    setChecking(false);
+    if (r.status === 'available') setUpdMsg(L(`يتوفّر تحديث: ${r.version} — استخدم الشريط بالأعلى.`, `Update available: ${r.version} — use the banner above.`));
+    else if (r.status === 'none') setUpdMsg(L('أنت على أحدث نسخة. ✅', 'You are on the latest version. ✅'));
+    else if (r.status === 'dev') setUpdMsg(L('فحص التحديثات يعمل فقط في التطبيق المثبّت.', 'Update checks work only in the installed app.'));
+    else setUpdMsg(L('تعذّر الفحص: ', 'Check failed: ') + (r.message || ''));
+  };
 
   const save = async () => {
     setErr(''); setMsg('');
@@ -79,6 +95,19 @@ export default function SettingsTab() {
 
       {msg && <Card className="text-sm text-green-600">{msg}</Card>}
       {err && <Card className="text-sm text-red-500">{err}</Card>}
+
+      {/* التحديثات */}
+      <Card>
+        <div className="mb-2 flex items-center gap-2 text-brand"><RefreshCw size={17} /><p className="text-sm font-bold">{L('التحديثات', 'Updates')}</p></div>
+        <p className="mb-3 text-xs text-slate-500">
+          {L('الإصدار الحالي', 'Current version')}: <span className="font-bold">{version ? `v${version}` : L('غير معروف (وضع التطوير)', 'unknown (dev mode)')}</span>
+        </p>
+        <Button onClick={checkUpdates} disabled={checking} variant="secondary">
+          {checking ? <Loader2 size={16} className="animate-spin" /> : <RefreshCw size={16} />}
+          {checking ? L('جارٍ الفحص…', 'Checking…') : L('التحقق من التحديثات', 'Check for updates')}
+        </Button>
+        {updMsg && <p className="mt-2 text-xs text-slate-600 dark:text-slate-300">{updMsg}</p>}
+      </Card>
     </div>
   );
 }

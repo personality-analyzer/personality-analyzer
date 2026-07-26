@@ -8,6 +8,7 @@ import SharedImage from '../components/SharedImage.jsx';
 import { exportFullReport } from '../services/exportReport.js';
 import { runAll, ANALYZERS } from '../services/analyzers.js';
 import { useApp } from '../store/AppContext.jsx';
+import { typeLabel } from '../services/i18n.js';
 import { profileRows, hasProfile } from '../services/profile.js';
 import { ClipboardList } from 'lucide-react';
 
@@ -36,7 +37,7 @@ export default function ReportTab() {
   };
 
   const doExport = (mode) =>
-    exportFullReport({ subject, sections: sections.map((s) => ({ type: s.type, full: s.full })), imageDataUrl: sharedImage?.dataUrl, profile: includeProfile ? profile : null }, mode);
+    exportFullReport({ subject, sections: sections.map((s) => ({ type: s.type, full: s.full })), imageDataUrl: sharedImage?.dataUrl, profile: includeProfile ? profile : null, lang }, mode);
 
   const today = new Date().toLocaleDateString('ar-EG', { year: 'numeric', month: 'long', day: 'numeric' });
 
@@ -119,7 +120,7 @@ export default function ReportTab() {
           <section key={s.id} className="surface overflow-hidden rounded-2xl border">
             <div className="flex items-center gap-3 border-b bg-brand/5 px-5 py-3">
               <span className="flex h-8 w-8 items-center justify-center rounded-full bg-brand text-sm font-black text-white">{i + 1}</span>
-              <h2 className="text-[16px] font-black text-brand">{s.type}</h2>
+              <h2 className="text-[16px] font-black text-brand">{typeLabel(s.type, lang)}</h2>
             </div>
             <div className="p-5">
               {parseOCEAN(s.full) && (

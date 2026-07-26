@@ -40,3 +40,18 @@ export function makeT(lang) {
   return (key) => d[key] ?? DICT.ar[key] ?? key;
 }
 export const langInstr = (lang) => (lang === 'en' ? ' Respond entirely in English.' : ' أجب بالكامل بالعربية.');
+
+// ترجمة أسماء أنواع التحاليل المعروضة (تحافظ على لاحقة الاسم بعد —)
+const TYPE_EN = {
+  'تحليل صورة': 'Image analysis', 'تحليل فيديو': 'Video analysis',
+  'تحليل صوت': 'Audio analysis', 'تحليل بث مباشر': 'Live analysis',
+  'الفراسة العربية': 'Arabic Physiognomy', 'الفراسة الغربية': 'Western Physiognomy',
+  'تقرير الشخصية': 'Personality Report', 'البروفايل الشامل': 'Full Profile',
+  'تحليل': 'Analysis', 'عام': 'General',
+};
+export function typeLabel(type, lang) {
+  if (lang !== 'en' || !type) return type;
+  const [base, ...rest] = String(type).split(' — ');
+  const en = TYPE_EN[base.trim()] || base;
+  return rest.length ? en + ' — ' + rest.join(' — ') : en;
+}

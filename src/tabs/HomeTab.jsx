@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import { Camera, Moon, UserCircle, FileStack, GraduationCap, Archive, Clock, Layers, Users, Sparkles, BarChart3 } from 'lucide-react';
 import { useApp } from '../store/AppContext.jsx';
+import { typeLabel } from '../services/i18n.js';
 
 const QUICK = [
   { id: 'analyze', k: 'nav.analyze', icon: Camera },
@@ -26,7 +27,7 @@ function Stat({ icon: Icon, value, label, onClick, hint }) {
 }
 
 export default function HomeTab() {
-  const { records, setTab, t } = useApp();
+  const { records, setTab, t, lang } = useApp();
   const people = new Set(records.map((r) => r.subject)).size;
   const last = records[0];
   const dist = useMemo(() => {
@@ -73,7 +74,7 @@ export default function HomeTab() {
           <div className="flex flex-col gap-2.5">
             {dist.map(([type, count]) => (
               <div key={type}>
-                <div className="mb-1 flex justify-between text-xs"><span className="font-bold">{type}</span><span className="text-slate-500">{count}</span></div>
+                <div className="mb-1 flex justify-between text-xs"><span className="font-bold">{typeLabel(type, lang)}</span><span className="text-slate-500">{count}</span></div>
                 <div className="h-2.5 rounded-full bg-slate-500/15"><div className="h-2.5 rounded-full bg-brand" style={{ width: `${Math.round((count / maxCount) * 100)}%` }} /></div>
               </div>
             ))}
@@ -91,7 +92,7 @@ export default function HomeTab() {
             {records.slice(0, 5).map((r) => (
               <div key={r.id} className="surface flex items-center justify-between rounded-xl border p-3">
                 <div className="min-w-0">
-                  <p className="text-sm font-bold text-brand">{r.type}</p>
+                  <p className="text-sm font-bold text-brand">{typeLabel(r.type, lang)}</p>
                   <p className="truncate text-xs text-slate-500">{new Date(r.date).toLocaleString()} · {r.subject}</p>
                 </div>
               </div>

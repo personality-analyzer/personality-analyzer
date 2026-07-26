@@ -74,7 +74,7 @@ function splitDisclaimer(text) {
 }
 
 export default function ResultView({ title = 'نتيجة التحليل', text, meta }) {
-  const { addRecord } = useApp();
+  const { addRecord, lang } = useApp();
   const savedRef = useRef('');
 
   // حفظ تلقائي في السجل عند ظهور نتيجة جديدة (يصل للمساعد وكل الأقسام)
@@ -101,8 +101,8 @@ export default function ResultView({ title = 'نتيجة التحليل', text, 
         </div>
         <div className="flex items-center gap-1.5">
           <span className="flex items-center gap-1 text-[11px] text-green-600"><Check size={12} /> حُفظ تلقائياً</span>
-          <button onClick={() => exportReport(title, text, 'pdf')} className="flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs surface hover:bg-black/5 dark:hover:bg-white/5" title="طباعة / PDF"><Printer size={14} /> PDF</button>
-          <button onClick={() => exportReport(title, text, 'html')} className="flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs surface hover:bg-black/5 dark:hover:bg-white/5" title="حفظ HTML"><FileText size={14} /> HTML</button>
+          <button onClick={() => exportReport(title, text, 'pdf', lang)} className="flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs surface hover:bg-black/5 dark:hover:bg-white/5" title="طباعة / PDF"><Printer size={14} /> PDF</button>
+          <button onClick={() => exportReport(title, text, 'html', lang)} className="flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs surface hover:bg-black/5 dark:hover:bg-white/5" title="حفظ HTML"><FileText size={14} /> HTML</button>
         </div>
       </div>
       {meta && <p className="mb-2 text-xs text-slate-500">{meta}</p>}

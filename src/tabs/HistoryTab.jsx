@@ -2,10 +2,11 @@ import { useState } from 'react';
 import { Card, Empty } from '../components/UI.jsx';
 import { History, Trash2, CheckSquare, Square, Eraser } from 'lucide-react';
 import { useApp } from '../store/AppContext.jsx';
+import { typeLabel } from '../services/i18n.js';
 import { renderBlocks } from '../components/ResultView.jsx';
 
 export default function HistoryTab() {
-  const { records, deleteRecord, deleteRecords, clearRecords, L } = useApp();
+  const { records, deleteRecord, deleteRecords, clearRecords, L, lang } = useApp();
   const [sel, setSel] = useState([]);
   const [open, setOpen] = useState(null);
 
@@ -44,7 +45,7 @@ export default function HistoryTab() {
               {sel.includes(r.id) ? <CheckSquare size={18} className="text-brand" /> : <Square size={18} className="text-slate-400" />}
             </button>
             <div className="min-w-0 flex-1 cursor-pointer" onClick={() => setOpen(open === r.id ? null : r.id)}>
-              <p className="text-sm font-bold text-brand">{r.type}</p>
+              <p className="text-sm font-bold text-brand">{typeLabel(r.type, lang)}</p>
               <p className="text-xs text-slate-500">{new Date(r.date).toLocaleString('ar')} · {r.subject}</p>
               {open !== r.id && <p className="mt-1 line-clamp-2 text-sm text-slate-600 dark:text-slate-300">{r.summary}</p>}
             </div>

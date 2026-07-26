@@ -1,6 +1,7 @@
 import { Card, Empty } from '../components/UI.jsx';
 import { Radar, ChevronLeft } from 'lucide-react';
 import { useApp } from '../store/AppContext.jsx';
+import { typeLabel } from '../services/i18n.js';
 import ResultView from '../components/ResultView.jsx';
 import { useMemo, useState } from 'react';
 import { analyze } from '../services/ai.js';
@@ -8,7 +9,7 @@ import { exportFullReport } from '../services/exportReport.js';
 import { Printer } from 'lucide-react';
 
 export default function CompareTab() {
-  const { records, subject, sharedImage, L } = useApp();
+  const { records, subject, sharedImage, L, lang } = useApp();
   const [report, setReport] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -44,7 +45,7 @@ export default function CompareTab() {
             <div className="mb-3 flex flex-col gap-1.5">
               {relevant.slice(0, 6).map((r) => (
                 <div key={r.id} className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-300">
-                  <ChevronLeft size={14} className="text-brand" /> {r.type}
+                  <ChevronLeft size={14} className="text-brand" /> {typeLabel(r.type, lang)}
                 </div>
               ))}
             </div>
@@ -53,7 +54,7 @@ export default function CompareTab() {
                 className="rounded-lg bg-brand px-4 py-2.5 text-sm font-bold text-white transition hover:opacity-90 disabled:opacity-50">
                 {loading ? L('جارٍ الدمج…','Merging…') : L('أنشئ البروفايل الشامل','Build full profile')}
               </button>
-              <button onClick={() => exportFullReport({ subject, sections: relevant.slice(0,8).map(r=>({type:r.type,full:r.full})), imageDataUrl: sharedImage?.dataUrl }, 'pdf')}
+              <button onClick={() => exportFullReport({ subject, sections: relevant.slice(0,8).map(r=>({type:r.type,full:r.full})), imageDataUrl: sharedImage?.dataUrl, lang }, 'pdf')}
                 className="flex items-center gap-2 rounded-lg border px-4 py-2.5 text-sm font-bold surface hover:bg-black/5 dark:hover:bg-white/5">
                 <Printer size={16} /> {L('تصدير التقرير الشامل (PDF)','Export full report (PDF)')}
               </button>

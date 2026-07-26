@@ -2,10 +2,31 @@
 // كل الدوال محميّة حتى لا تُعطِّل التطبيق عند تشغيله في متصفح التطوير (حيث لا تتوفّر واجهات Tauri).
 import { check } from '@tauri-apps/plugin-updater';
 import { relaunch } from '@tauri-apps/plugin-process';
+import { getVersion } from '@tauri-apps/api/app';
 
 // نعمل فقط داخل تطبيق Tauri الحقيقي، لا في متصفح Vite أثناء التطوير.
 function isTauri() {
   return typeof window !== 'undefined' && !!window.__TAURI_INTERNALS__;
+}
+
+// رقم الإصدار الحالي للتطبيق المثبّت (null في متصفح التطوير).
+export async function getAppVersion() {
+  if (!isTauri()) return null;
+  try { return await getVersion(); } catch { return null; }
+}
+
+// فحص يدوي للتحديثات — يُستدعى من زر في الإعدادات.
+// يعيد: {status:'dev'|'none'|'available'|'error', version?, message?}
+export async function checkForUpdatesManual() {
+  if (!isTauri()) return { status: 'dev' };
+  try {
+    const update = await check();
+    if (!update) return { status: 'none' };
+    showUpdateBanner(update);
+    return { status: 'available', version: update.version };
+  } catch (err) {
+    return { status: 'error', message: String(err?.message || err) };
+  }
 }
 
 // يُستدعى عند إقلاع التطبيق: يفحص وجود تحديث، وإن وُجد يعرض شريطاً فيه زر "تحديث الآن".
