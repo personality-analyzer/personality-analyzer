@@ -19,7 +19,7 @@ const FORMAT = ' نسّق ردّك بعناوين "## " ونقاط "- " و**تش
 const OCEAN = ' في نهاية ردّك أضف سطراً منفصلاً بهذه الصيغة بالضبط بأرقام 0-100: [[OCEAN O=.. C=.. E=.. A=.. N=..]] (O الانفتاح، C الضمير، E الانبساط، A المقبولية، N الاتزان).';
 
 export default function PersonalityTab() {
-  const { subject, sharedImage, profile, lang } = useApp();
+  const { subject, sharedImage, profile, lang, L } = useApp();
   const [mode, setMode] = useState('quiz');
   const [answers, setAnswers] = useState({});
   const [loading, setLoading] = useState(false);
@@ -41,7 +41,7 @@ export default function PersonalityTab() {
   };
 
   const runImage = async () => {
-    if (!sharedImage) { setError('اختر صورة أولاً'); return; }
+    if (!sharedImage) { setError(L('اختر صورة أولاً','Choose an image first')); return; }
     setLoading(true); setError(''); setResult('');
     try {
       const text = await analyze({
@@ -59,7 +59,7 @@ export default function PersonalityTab() {
   return (
     <div className="fade-in flex flex-col gap-4">
       <div className="inline-flex w-fit gap-1 rounded-xl border p-1 surface">
-        {[['quiz', 'استبيان'], ['image', 'من الصورة']].map(([id, lb]) => (
+        {[['quiz', L('استبيان','Quiz')], ['image', L('من الصورة','From image')]].map(([id, lb]) => (
           <button key={id} onClick={() => { setMode(id); setResult(''); }}
             className={`rounded-lg px-4 py-1.5 text-[13px] transition ${mode === id ? 'bg-brand/15 font-bold text-brand' : 'text-slate-500'}`}>{lb}</button>
         ))}
@@ -68,8 +68,8 @@ export default function PersonalityTab() {
       {mode === 'quiz' ? (
         <>
           <Card>
-            <p className="mb-1 text-sm font-bold text-brand">استبيان الشخصية</p>
-            <p className="text-xs text-slate-500">مبني على نموذج OCEAN العلمي — أجب عن الأسئلة الخمسة.</p>
+            <p className="mb-1 text-sm font-bold text-brand">{L('استبيان الشخصية','Personality Quiz')}</p>
+            <p className="text-xs text-slate-500">{L('مبني على نموذج OCEAN العلمي — أجب عن الأسئلة الخمسة.','Based on the scientific OCEAN model — answer the five questions.')}</p>
           </Card>
           {QUESTIONS.map((item, i) => (
             <Card key={i}>
@@ -84,7 +84,7 @@ export default function PersonalityTab() {
           ))}
           <Button onClick={runQuiz} disabled={!done || loading}>
             {loading ? <Loader2 size={18} className="animate-spin" /> : <Sparkles size={18} />}
-            {loading ? 'جارٍ إعداد التقرير…' : 'احصل على تقرير شخصيتك'}
+            {loading ? L('جارٍ إعداد التقرير…','Preparing report…') : L('احصل على تقرير شخصيتك','Get your personality report')}
           </Button>
         </>
       ) : (
@@ -92,12 +92,12 @@ export default function PersonalityTab() {
           <SharedImage compact />
           <Button onClick={runImage} disabled={loading}>
             {loading ? <Loader2 size={18} className="animate-spin" /> : <Sparkles size={18} />}
-            {loading ? 'جارٍ التحليل…' : 'حلّل الشخصية من الصورة'}
+            {loading ? L('جارٍ التحليل…','Analyzing…') : L('حلّل الشخصية من الصورة','Analyze personality from image')}
           </Button>
         </>
       )}
       {error && <Card className="text-sm text-red-500">{error}</Card>}
-      <ResultView title={`تقرير الشخصية${subject ? ' — ' + subject : ''}`} text={result} />
+      <ResultView title={`${L('تقرير الشخصية','Personality Report')}${subject ? ' — ' + subject : ''}`} text={result} />
     </div>
   );
 }

@@ -8,7 +8,7 @@ import { langInstr } from '../services/i18n.js';
 const SUGGEST = ['اشرح لي نتيجة آخر تحليل', 'ما أبرز نقاط القوة؟', 'كيف أطوّر مجالات الضعف؟', 'لخّص شخصيتي في ٣ نقاط'];
 
 export default function ChatTab() {
-  const { records, subject, profile, lang, t } = useApp();
+  const { records, subject, profile, lang, t, L } = useApp();
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
@@ -51,8 +51,8 @@ export default function ChatTab() {
       <div className="mb-3 flex items-center gap-2">
         <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-brand/15"><Bot size={19} className="text-brand" /></div>
         <div>
-          <p className="text-sm font-bold">مساعد التحليل</p>
-          <p className="text-xs text-slate-500">{context ? `مرتبط بـ ${sectionCount} من أقسام التحليل` : 'لا توجد تحاليل محفوظة بعد'}</p>
+          <p className="text-sm font-bold">{L('مساعد التحليل','Analysis Assistant')}</p>
+          <p className="text-xs text-slate-500">{context ? `${L('مرتبط بـ','Linked to')} ${sectionCount} ${L('من أقسام التحليل','sections')}` : L('لا توجد تحاليل محفوظة بعد','No saved analyses yet')}</p>
         </div>
       </div>
 
@@ -60,7 +60,7 @@ export default function ChatTab() {
         {messages.length === 0 && (
           <div className="flex flex-col items-center justify-center gap-3 py-10 text-center">
             <Sparkles size={30} className="text-brand" />
-            <p className="text-sm text-slate-500">اسألني عن نتائج تحليلك</p>
+            <p className="text-sm text-slate-500">{L('اسألني عن نتائج تحليلك','Ask me about your analysis results')}</p>
             <div className="flex flex-wrap justify-center gap-2">
               {SUGGEST.map((s) => (
                 <button key={s} onClick={() => send(s)} className="rounded-full border px-3 py-1.5 text-xs text-brand surface hover:bg-brand/10">{s}</button>
@@ -78,14 +78,14 @@ export default function ChatTab() {
             </div>
           </div>
         ))}
-        {loading && <div className="flex items-center gap-2 text-sm text-slate-500"><Loader2 size={15} className="animate-spin" /> يكتب…</div>}
+        {loading && <div className="flex items-center gap-2 text-sm text-slate-500"><Loader2 size={15} className="animate-spin" /> {L('يكتب…','Typing…')}</div>}
         {error && <p className="text-sm text-red-500">{error}</p>}
         <div ref={endRef} />
       </div>
 
       <div className="mt-3 flex gap-2">
         <input value={input} onChange={(e) => setInput(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && send()}
-          placeholder="اكتب سؤالك…" className="flex-1 rounded-xl border px-4 py-2.5 text-sm surface outline-none focus:border-brand" />
+          placeholder={L('اكتب سؤالك…','Type your question…')} className="flex-1 rounded-xl border px-4 py-2.5 text-sm surface outline-none focus:border-brand" />
         <button onClick={() => send()} disabled={loading || !input.trim()}
           className="flex items-center gap-2 rounded-xl bg-brand px-4 text-sm font-bold text-white transition hover:opacity-90 disabled:opacity-50">
           <Send size={16} />

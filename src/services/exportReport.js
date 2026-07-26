@@ -68,14 +68,34 @@ function shell(title, css, inner) {
 }
 function output(html, mode, filename) {
   if (mode === 'html') {
+    // تنزيل ملف HTML (يعمل في المتصفح وفي نافذة سطح المكتب)
     const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob); a.download = `${filename}.html`; a.click();
-    URL.revokeObjectURL(a.href); return;
+    a.href = url; a.download = `${filename}.html`;
+    a.style.display = 'none';
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(() => { document.body.removeChild(a); URL.revokeObjectURL(url); }, 1500);
+    return;
   }
-  const w = window.open('', '_blank'); if (!w) return;
-  w.document.write(html); w.document.close(); w.focus();
-  setTimeout(() => w.print(), 450);
+  // PDF عبر الطباعة داخل إطار مخفي (يعمل داخل Tauri دون نوافذ منبثقة)
+  const iframe = document.createElement('iframe');
+  iframe.setAttribute('aria-hidden', 'true');
+  iframe.style.cssText = 'position:fixed;right:0;bottom:0;width:0;height:0;border:0;';
+  document.body.appendChild(iframe);
+  const cleanup = () => setTimeout(() => { try { document.body.removeChild(iframe); } catch {} }, 1500);
+  iframe.onload = () => {
+    try {
+      iframe.contentWindow.focus();
+      iframe.contentWindow.print();
+    } catch (e) { /* تجاهل */ }
+    cleanup();
+  };
+  const doc = iframe.contentWindow.document;
+  doc.open(); doc.write(html); doc.close();
+  // احتياط إن لم يُطلق onload
+  setTimeout(() => { try { iframe.contentWindow.focus(); iframe.contentWindow.print(); } catch {} }, 600);
 }
 
 export function exportReport(title, text, mode = 'pdf') {

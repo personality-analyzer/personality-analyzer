@@ -8,7 +8,7 @@ import { exportFullReport } from '../services/exportReport.js';
 import { Printer } from 'lucide-react';
 
 export default function CompareTab() {
-  const { records, subject, sharedImage } = useApp();
+  const { records, subject, sharedImage, L } = useApp();
   const [report, setReport] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -27,15 +27,15 @@ export default function CompareTab() {
         maxTokens: 1800,
       });
       setReport(text);
-    } catch (e) { setReport('تعذّر الدمج: ' + e.message); } finally { setLoading(false); }
+    } catch (e) { setReport(L('تعذّر الدمج: ','Merge failed: ') + e.message); } finally { setLoading(false); }
   };
 
   return (
     <div className="fade-in flex flex-col gap-4">
       <Card>
-        <div className="mb-2 flex items-center gap-2 text-brand"><Radar size={18} /><p className="text-sm font-bold">لوحة المقارنة الموحّدة</p></div>
+        <div className="mb-2 flex items-center gap-2 text-brand"><Radar size={18} /><p className="text-sm font-bold">{L('لوحة المقارنة الموحّدة','Unified Comparison')}</p></div>
         {relevant.length === 0 ? (
-          <Empty icon={Radar} title="لا توجد تحليلات محفوظة" hint="احفظ نتائج من التحليل/الفراسة/الشخصية (زر «حفظ») لتظهر هنا." />
+          <Empty icon={Radar} title={L('لا توجد تحليلات محفوظة','No saved analyses')} hint={L('احفظ نتائج من التحليل/الفراسة/الشخصية لتظهر هنا.','Run analyses (Analysis/Physiognomy/Personality) to see them here.')} />
         ) : (
           <>
             <p className="mb-3 text-xs text-slate-500">
@@ -51,17 +51,17 @@ export default function CompareTab() {
             <div className="flex flex-wrap gap-2">
               <button onClick={build} disabled={loading}
                 className="rounded-lg bg-brand px-4 py-2.5 text-sm font-bold text-white transition hover:opacity-90 disabled:opacity-50">
-                {loading ? 'جارٍ الدمج…' : 'أنشئ البروفايل الشامل'}
+                {loading ? L('جارٍ الدمج…','Merging…') : L('أنشئ البروفايل الشامل','Build full profile')}
               </button>
               <button onClick={() => exportFullReport({ subject, sections: relevant.slice(0,8).map(r=>({type:r.type,full:r.full})), imageDataUrl: sharedImage?.dataUrl }, 'pdf')}
                 className="flex items-center gap-2 rounded-lg border px-4 py-2.5 text-sm font-bold surface hover:bg-black/5 dark:hover:bg-white/5">
-                <Printer size={16} /> تصدير التقرير الشامل (PDF)
+                <Printer size={16} /> {L('تصدير التقرير الشامل (PDF)','Export full report (PDF)')}
               </button>
             </div>
           </>
         )}
       </Card>
-      <ResultView title={`البروفايل الشامل${subject ? ' — ' + subject : ''}`} text={report} />
+      <ResultView title={`${L('البروفايل الشامل','Full Profile')}${subject ? ' — ' + subject : ''}`} text={report} />
     </div>
   );
 }

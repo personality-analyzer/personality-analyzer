@@ -3,11 +3,11 @@ import { Search, Loader2, ExternalLink, Archive } from 'lucide-react';
 import { Card, Button, Empty } from '../components/UI.jsx';
 
 const TYPES = [
-  { id: '', label: 'الكل' },
-  { id: 'image', label: 'صور' },
-  { id: 'texts', label: 'كتب/نصوص' },
-  { id: 'movies', label: 'فيديو' },
-  { id: 'audio', label: 'صوت' },
+  { id: '', label: 'الكل', en: 'All' },
+  { id: 'image', label: 'صور', en: 'Images' },
+  { id: 'texts', label: 'كتب/نصوص', en: 'Books/Texts' },
+  { id: 'movies', label: 'فيديو', en: 'Video' },
+  { id: 'audio', label: 'صوت', en: 'Audio' },
 ];
 
 // بحث مجاني في أرشيف الإنترنت archive.org (بلا مفتاح)
@@ -28,31 +28,31 @@ export default function ArchiveTab() {
       const res = await fetch(url);
       const data = await res.json();
       setItems((data.response?.docs || []));
-    } catch (e) { setError('تعذّر البحث: ' + e.message); } finally { setLoading(false); }
+    } catch (e) { setError(L('تعذّر البحث: ','Search failed: ') + e.message); } finally { setLoading(false); }
   };
 
   return (
     <div className="fade-in flex flex-col gap-4">
       <Card>
-        <div className="mb-2 flex items-center gap-2 text-brand"><Archive size={18} /><p className="text-sm font-bold">أرشيف الإنترنت</p></div>
-        <p className="mb-3 text-xs text-slate-500">ابحث في ملايين العناصر المجانية على archive.org (صور، كتب، فيديو، صوت).</p>
+        <div className="mb-2 flex items-center gap-2 text-brand"><Archive size={18} /><p className="text-sm font-bold">{L('أرشيف الإنترنت','Internet Archive')}</p></div>
+        <p className="mb-3 text-xs text-slate-500">{L('ابحث في ملايين العناصر المجانية على archive.org (صور، كتب، فيديو، صوت).','Search millions of free items on archive.org (images, books, video, audio).')}</p>
         <div className="mb-2 flex gap-2">
           <input value={q} onChange={(e) => setQ(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && search()}
-            placeholder="كلمة البحث…" className="flex-1 rounded-lg border px-3 py-2 text-sm surface outline-none focus:border-brand" />
+            placeholder={L('كلمة البحث…','Search term…')} className="flex-1 rounded-lg border px-3 py-2 text-sm surface outline-none focus:border-brand" />
           <Button onClick={search} disabled={loading} className="shrink-0">
-            {loading ? <Loader2 size={16} className="animate-spin" /> : <Search size={16} />} بحث
+            {loading ? <Loader2 size={16} className="animate-spin" /> : <Search size={16} />} {L('بحث','Search')}
           </Button>
         </div>
         <div className="flex flex-wrap gap-1.5">
           {TYPES.map((t) => (
             <button key={t.id} onClick={() => setType(t.id)}
-              className={`rounded-full px-3 py-1 text-xs transition ${type === t.id ? 'bg-brand/15 font-bold text-brand' : 'surface border text-slate-500'}`}>{t.label}</button>
+              className={`rounded-full px-3 py-1 text-xs transition ${type === t.id ? 'bg-brand/15 font-bold text-brand' : 'surface border text-slate-500'}`}>{L(t.label, t.en)}</button>
           ))}
         </div>
       </Card>
 
       <Card>
-        <p className="mb-2 text-xs font-bold text-slate-500">ابحث أيضاً في أشهر المواقع العالمية:</p>
+        <p className="mb-2 text-xs font-bold text-slate-500">{L('ابحث أيضاً في أشهر المواقع العالمية:','Also search popular global sites:')}</p>
         <div className="flex flex-wrap gap-2">
           {[
             ['YouTube', `https://www.youtube.com/results?search_query=${encodeURIComponent(q)}`],
@@ -70,7 +70,7 @@ export default function ArchiveTab() {
       </Card>
 
       {error && <Card className="text-sm text-red-500">{error}</Card>}
-      {items && items.length === 0 && <Card><Empty icon={Search} title="لا نتائج" hint="جرّب كلمات أخرى." /></Card>}
+      {items && items.length === 0 && <Card><Empty icon={Search} title={L('لا نتائج','No results')} hint={L('جرّب كلمات أخرى.','Try different keywords.')} /></Card>}
       {items && items.length > 0 && (
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           {items.map((it) => (
@@ -82,7 +82,7 @@ export default function ArchiveTab() {
               <div className="min-w-0">
                 <p className="line-clamp-2 text-sm font-bold leading-6">{it.title || it.identifier}</p>
                 <p className="truncate text-xs text-slate-500">{Array.isArray(it.creator) ? it.creator[0] : it.creator || ''}{it.year ? ` · ${it.year}` : ''}</p>
-                <span className="mt-1 inline-flex items-center gap-1 text-xs text-brand"><ExternalLink size={11} /> فتح</span>
+                <span className="mt-1 inline-flex items-center gap-1 text-xs text-brand"><ExternalLink size={11} /> {L('فتح','Open')}</span>
               </div>
             </a>
           ))}

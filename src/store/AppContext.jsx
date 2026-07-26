@@ -16,7 +16,8 @@ export function AppProvider({ children }) {
   const [includeProfile, setIncludeProfile] = useState(() => load('includeProfile', true));
   const [sharedImage, setSharedImage] = useState(null); // في الذاكرة فقط — يُحذف عند تحديث الصفحة
 
-  const subject = profile.name; // الاسم هو معرّف الملف الموحّد
+  const subject = profile.name;
+  const L = (ar, en) => (lang === 'en' ? en : ar); // مساعد ترجمة سريع // الاسم هو معرّف الملف الموحّد
 
   useEffect(() => {
     const root = document.documentElement;
@@ -46,7 +47,7 @@ export function AppProvider({ children }) {
     () => ({
       theme, setTheme, lang, setLang, t: makeT(lang), tab, setTab, records, addRecord, deleteRecord, deleteRecords, clearRecords,
       profile, setProfile, updateProfile, clearProfile, includeProfile, setIncludeProfile,
-      subject, setSubject, sharedImage, setSharedImage,
+      subject, setSubject, sharedImage, setSharedImage, L,
     }),
     [theme, lang, tab, records, profile, includeProfile, sharedImage]
   );

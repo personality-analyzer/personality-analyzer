@@ -5,34 +5,34 @@ import { useApp } from '../store/AppContext.jsx';
 import { renderBlocks } from '../components/ResultView.jsx';
 
 export default function HistoryTab() {
-  const { records, deleteRecord, deleteRecords, clearRecords } = useApp();
+  const { records, deleteRecord, deleteRecords, clearRecords, L } = useApp();
   const [sel, setSel] = useState([]);
   const [open, setOpen] = useState(null);
 
   const toggle = (id) => setSel((s) => (s.includes(id) ? s.filter((x) => x !== id) : [...s, id]));
   const allChecked = records.length > 0 && sel.length === records.length;
   const toggleAll = () => setSel(allChecked ? [] : records.map((r) => r.id));
-  const delSel = () => { if (sel.length && confirm(`مسح ${sel.length} عنصراً؟`)) { deleteRecords(sel); setSel([]); } };
-  const delAll = () => { if (confirm('مسح كل السجل؟ لا يمكن التراجع.')) { clearRecords(); setSel([]); } };
+  const delSel = () => { if (sel.length && confirm(L(`مسح ${sel.length} عنصراً؟`,`Delete ${sel.length} item(s)?`))) { deleteRecords(sel); setSel([]); } };
+  const delAll = () => { if (confirm(L('مسح كل السجل؟ لا يمكن التراجع.','Delete all history? This cannot be undone.'))) { clearRecords(); setSel([]); } };
 
   if (records.length === 0)
-    return <div className="fade-in"><Card><Empty icon={History} title="السجل فارغ" hint="ستظهر تحليلاتك المحفوظة هنا." /></Card></div>;
+    return <div className="fade-in"><Card><Empty icon={History} title={L('السجل فارغ','History is empty')} hint={L('ستظهر تحليلاتك المحفوظة هنا.','Your saved analyses will appear here.')} /></Card></div>;
 
   return (
     <div className="fade-in flex flex-col gap-3">
       <div className="surface flex flex-wrap items-center justify-between gap-2 rounded-xl border p-3">
         <button onClick={toggleAll} className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-300">
-          {allChecked ? <CheckSquare size={17} className="text-brand" /> : <Square size={17} />} تحديد الكل
+          {allChecked ? <CheckSquare size={17} className="text-brand" /> : <Square size={17} />} {L('تحديد الكل','Select all')}
           {sel.length > 0 && <span className="text-xs text-slate-400">({sel.length})</span>}
         </button>
         <div className="flex gap-2">
           <button onClick={delSel} disabled={!sel.length}
             className="flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs text-red-500 surface hover:bg-red-500/10 disabled:opacity-40">
-            <Trash2 size={14} /> مسح المحدد
+            <Trash2 size={14} /> {L('مسح المحدد','Delete selected')}
           </button>
           <button onClick={delAll}
             className="flex items-center gap-1.5 rounded-lg border border-red-400/40 bg-red-500/10 px-3 py-1.5 text-xs font-bold text-red-600 hover:bg-red-500/20">
-            <Eraser size={14} /> مسح الكل
+            <Eraser size={14} /> {L('مسح الكل','Delete all')}
           </button>
         </div>
       </div>

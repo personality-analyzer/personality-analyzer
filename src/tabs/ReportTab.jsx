@@ -14,7 +14,7 @@ import { ClipboardList } from 'lucide-react';
 const WANTED = ['تحليل صورة', 'الفراسة العربية', 'الفراسة الغربية', 'تقرير الشخصية'];
 
 export default function ReportTab() {
-  const { records, subject, sharedImage, addRecord, profile, includeProfile, lang } = useApp();
+  const { records, subject, sharedImage, addRecord, profile, includeProfile, lang, L } = useApp();
   const [loading, setLoading] = useState(false);
   const [prog, setProg] = useState({});
 
@@ -47,11 +47,11 @@ export default function ReportTab() {
         <div className="flex items-center gap-4 p-5 text-white">
           <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-white/15"><FileStack size={26} /></div>
           <div className="flex-1">
-            <p className="text-lg font-black">التقرير الشامل</p>
+            <p className="text-lg font-black">{L('التقرير الشامل','Full Report')}</p>
             <div className="mt-1 flex flex-wrap gap-x-4 gap-y-1 text-xs text-white/85">
-              <span className="flex items-center gap-1"><User size={12} /> {subject || 'غير محدّد'}</span>
+              <span className="flex items-center gap-1"><User size={12} /> {subject || L('غير محدّد','Not set')}</span>
               <span className="flex items-center gap-1"><Calendar size={12} /> {today}</span>
-              <span className="flex items-center gap-1"><Layers size={12} /> {sections.length} من 4 أقسام</span>
+              <span className="flex items-center gap-1"><Layers size={12} /> {sections.length} {L('من 4 أقسام','of 4 sections')}</span>
             </div>
           </div>
           {sharedImage && <img src={sharedImage.dataUrl} alt="" className="h-16 w-16 rounded-xl border-2 border-white/30 object-cover" />}
@@ -65,7 +65,7 @@ export default function ReportTab() {
           <button onClick={run} disabled={loading || !sharedImage}
             className="flex items-center gap-2 rounded-xl bg-brand px-5 py-2.5 text-sm font-bold text-white transition hover:opacity-90 disabled:opacity-50">
             {loading ? <Loader2 size={16} className="animate-spin" /> : <ScanFace size={16} />}
-            {loading ? 'جارٍ الفحص الكامل…' : 'ابدأ الفحص الكامل'}
+            {loading ? L('جارٍ الفحص الكامل…','Running full scan…') : L('ابدأ الفحص الكامل','Start full scan')}
           </button>
           <button onClick={() => doExport('pdf')} disabled={!sections.length}
             className="flex items-center gap-2 rounded-xl border px-4 py-2.5 text-sm font-bold surface hover:bg-black/5 disabled:opacity-40 dark:hover:bg-white/5"><Printer size={15} /> PDF</button>
@@ -90,7 +90,7 @@ export default function ReportTab() {
 
       {includeProfile && hasProfile(profile) && (
         <div className="surface rounded-2xl border p-5">
-          <div className="mb-3 flex items-center gap-2 text-brand"><ClipboardList size={17} /><p className="text-sm font-bold">المعلومات الشخصية</p></div>
+          <div className="mb-3 flex items-center gap-2 text-brand"><ClipboardList size={17} /><p className="text-sm font-bold">{L('المعلومات الشخصية','Personal Info')}</p></div>
           <div className="grid grid-cols-2 gap-x-4 gap-y-2 sm:grid-cols-3">
             {profileRows(profile).map(([k, v]) => (
               <div key={k} className="text-sm"><span className="text-slate-500">{k}: </span><span className="font-bold">{v}</span></div>
@@ -124,13 +124,13 @@ export default function ReportTab() {
             <div className="p-5">
               {parseOCEAN(s.full) && (
                 <div className="mb-4 rounded-xl border bg-brand/5 p-3">
-                  <p className="mb-1 text-center text-xs font-bold text-brand">مخطط سمات OCEAN</p>
+                  <p className="mb-1 text-center text-xs font-bold text-brand">{L('مخطط سمات OCEAN','OCEAN traits chart')}</p>
                   <RadarChart data={parseOCEAN(s.full)} />
                 </div>
               )}
               {parseMetrics(s.full) && (
                 <div className="mb-4 rounded-xl border bg-brand/5 p-4">
-                  <p className="mb-3 text-xs font-bold text-brand">المؤشرات</p>
+                  <p className="mb-3 text-xs font-bold text-brand">{L('المؤشرات','Metrics')}</p>
                   <MetricBars data={parseMetrics(s.full)} />
                 </div>
               )}
