@@ -1,4 +1,4 @@
-import { Home, ClipboardList, Camera, Moon, UserCircle, Radar, History, Settings, GraduationCap, Archive, FileStack, MessageCircle } from 'lucide-react';
+import { Home, ClipboardList, Camera, Moon, UserCircle, Compass, Gauge, Radar, History, Settings, GraduationCap, Archive, FileStack, MessageCircle } from 'lucide-react';
 import { useApp } from '../store/AppContext.jsx';
 
 const groups = [
@@ -8,6 +8,8 @@ const groups = [
     { id: 'analyze', k: 'nav.analyze', icon: Camera },
     { id: 'firasa', k: 'nav.firasa', icon: Moon },
     { id: 'personality', k: 'nav.personality', icon: UserCircle },
+    { id: 'career', k: 'nav.career', icon: Compass },
+    { id: 'deep', k: 'nav.deep', icon: Gauge },
     { id: 'compare', k: 'nav.compare', icon: Radar },
     { id: 'report', k: 'nav.report', icon: FileStack },
   ]},

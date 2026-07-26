@@ -42,6 +42,7 @@ const TYPE_EN = {
   'تحليل صورة': 'Image analysis', 'تحليل فيديو': 'Video analysis', 'تحليل صوت': 'Audio analysis',
   'تحليل بث مباشر': 'Live analysis', 'الفراسة العربية': 'Arabic Physiognomy', 'الفراسة الغربية': 'Western Physiognomy',
   'تقرير الشخصية': 'Personality Report', 'البروفايل الشامل': 'Full Profile',
+  'المسار المهني': 'Career Path', 'الشخصية المتعمّقة': 'Deep Personality',
 };
 const FIELD_EN = { name: 'Name', age: 'Age', gender: 'Gender', height: 'Height', weight: 'Weight', health: 'Health', notes: 'Notes' };
 

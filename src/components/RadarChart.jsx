@@ -1,10 +1,10 @@
 // رادار SVG لسمات OCEAN — بلا اعتماديات خارجية.
 const AXES = [
-  { key: 'O', label: 'الانفتاح' },
-  { key: 'C', label: 'الضمير الحي' },
-  { key: 'E', label: 'الانبساط' },
-  { key: 'A', label: 'المقبولية' },
-  { key: 'N', label: 'الاتزان' },
+  { key: 'O', label: 'الانفتاح', en: 'Openness' },
+  { key: 'C', label: 'الضمير الحي', en: 'Conscientiousness' },
+  { key: 'E', label: 'الانبساط', en: 'Extraversion' },
+  { key: 'A', label: 'المقبولية', en: 'Agreeableness' },
+  { key: 'N', label: 'الاتزان', en: 'Stability' },
 ];
 
 // يستخرج الأرقام من صيغة: [[OCEAN O=82 C=67 E=54 A=75 N=60]]
@@ -18,7 +18,7 @@ export function stripOCEAN(text) {
   return (text || '').replace(/\[\[?\s*OCEAN[^\]]*\]?\]/gi, '').replace(/\n{3,}/g, '\n\n').trim();
 }
 
-export default function RadarChart({ data }) {
+export default function RadarChart({ data, lang }) {
   if (!data) return null;
   const size = 300, cx = size / 2, cy = 150, R = 100;
   const pt = (i, r) => {
@@ -47,7 +47,7 @@ export default function RadarChart({ data }) {
           const anchor = Math.abs(x - cx) < 10 ? 'middle' : x > cx ? 'start' : 'end';
           return (
             <text key={i} x={x} y={y} textAnchor={anchor} dominantBaseline="middle" fontSize="12" fontWeight="700" fill="#0e7490">
-              {a.label}
+              {lang === 'en' ? a.en : a.label}
               <tspan x={x} dy="14" fontSize="11" fill="currentColor">{data[a.key]}%</tspan>
             </text>
           );

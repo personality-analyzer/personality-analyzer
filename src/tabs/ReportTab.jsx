@@ -126,7 +126,7 @@ export default function ReportTab() {
               {parseOCEAN(s.full) && (
                 <div className="mb-4 rounded-xl border bg-brand/5 p-3">
                   <p className="mb-1 text-center text-xs font-bold text-brand">{L('مخطط سمات OCEAN','OCEAN traits chart')}</p>
-                  <RadarChart data={parseOCEAN(s.full)} />
+                  <RadarChart data={parseOCEAN(s.full)} lang={lang} />
                 </div>
               )}
               {parseMetrics(s.full) && (

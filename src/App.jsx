@@ -7,6 +7,8 @@ import ProfileTab from './tabs/ProfileTab.jsx';
 import AnalyzeTab from './tabs/AnalyzeTab.jsx';
 import FirasaTab from './tabs/FirasaTab.jsx';
 import PersonalityTab from './tabs/PersonalityTab.jsx';
+import CareerTab from './tabs/CareerTab.jsx';
+import DeepPersonalityTab from './tabs/DeepPersonalityTab.jsx';
 import CompareTab from './tabs/CompareTab.jsx';
 import HistoryTab from './tabs/HistoryTab.jsx';
 import SettingsTab from './tabs/SettingsTab.jsx';
@@ -17,7 +19,7 @@ import ReportTab from './tabs/ReportTab.jsx';
 
 const TABS = {
   home: HomeTab, profile: ProfileTab, analyze: AnalyzeTab, firasa: FirasaTab, personality: PersonalityTab,
-  compare: CompareTab, report: ReportTab, research: ResearchTab, archive: ArchiveTab,
+  career: CareerTab, deep: DeepPersonalityTab, compare: CompareTab, report: ReportTab, research: ResearchTab, archive: ArchiveTab,
   chat: ChatTab, history: HistoryTab, settings: SettingsTab,
 };
 
