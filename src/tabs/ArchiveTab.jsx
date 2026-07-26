@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { openExternal } from '../services/openLink.js';
 import { Search, Loader2, ExternalLink, Archive } from 'lucide-react';
 import { Card, Button, Empty } from '../components/UI.jsx';
 import { useApp } from '../store/AppContext.jsx';
@@ -63,7 +64,7 @@ export default function ArchiveTab() {
             ['Google', `https://www.google.com/search?q=${encodeURIComponent(q)}`],
             ['Wikimedia', `https://commons.wikimedia.org/w/index.php?search=${encodeURIComponent(q)}`],
           ].map(([name, url]) => (
-            <a key={name} href={q ? url : '#'} target="_blank" rel="noreferrer"
+            <a key={name} href={q ? url : '#'} target="_blank" rel="noreferrer" onClick={(e) => { e.preventDefault(); openExternal(e.currentTarget.href); }}
               className={`rounded-full border px-3 py-1.5 text-xs transition ${q ? 'surface text-brand hover:bg-brand/10' : 'surface text-slate-400 pointer-events-none'}`}>
               {name}
             </a>
@@ -76,7 +77,7 @@ export default function ArchiveTab() {
       {items && items.length > 0 && (
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           {items.map((it) => (
-            <a key={it.identifier} href={`https://archive.org/details/${it.identifier}`} target="_blank" rel="noreferrer"
+            <a key={it.identifier} href={`https://archive.org/details/${it.identifier}`} target="_blank" rel="noreferrer" onClick={(e) => { e.preventDefault(); openExternal(e.currentTarget.href); }}
               className="surface flex gap-3 rounded-xl border p-3 transition hover:border-brand">
               {it.mediatype === 'image' && (
                 <img src={`https://archive.org/services/img/${it.identifier}`} alt="" className="h-16 w-16 shrink-0 rounded-lg object-cover" loading="lazy" />

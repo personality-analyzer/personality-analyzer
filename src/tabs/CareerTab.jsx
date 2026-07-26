@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { openExternal } from '../services/openLink.js';
 import { Compass, Sparkles, Loader2, ExternalLink } from 'lucide-react';
 import { Card, Button } from '../components/UI.jsx';
 import ResultView from '../components/ResultView.jsx';
@@ -101,7 +102,7 @@ export default function CareerTab() {
           <p className="mb-3 text-xs text-slate-500">{L('قوائم مهن رسمية من قاعدة O*NET حسب ميولك الأعلى (بالإنجليزية).', 'Official occupation lists from the O*NET database for your top interests (in English).')}</p>
           <div className="flex flex-wrap gap-2">
             {topOnet.map((d) => (
-              <a key={d.k} href={`https://www.onetonline.org/explore/interests/${d.en}/`} target="_blank" rel="noreferrer"
+              <a key={d.k} href={`https://www.onetonline.org/explore/interests/${d.en}/`} target="_blank" rel="noreferrer" onClick={(e) => { e.preventDefault(); openExternal(e.currentTarget.href); }}
                 className="flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs text-brand surface hover:bg-brand/10">
                 <ExternalLink size={12} /> {L(d.ar, d.en)}
               </a>

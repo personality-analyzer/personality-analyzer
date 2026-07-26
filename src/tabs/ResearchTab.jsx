@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { openExternal } from '../services/openLink.js';
 import { Search, Loader2, ExternalLink, GraduationCap } from 'lucide-react';
 import { Card, Button, Empty } from '../components/UI.jsx';
 import { useApp } from '../store/AppContext.jsx';
@@ -57,8 +58,8 @@ export default function ResearchTab() {
           <div className="mt-1 flex flex-wrap items-center gap-2 text-xs">
             <span className="rounded-full bg-brand/10 px-2 py-0.5 text-brand">{L('استشهادات','Citations')}: {it.cites}</span>
             {it.lang && <span className="rounded-full bg-slate-500/10 px-2 py-0.5 text-slate-500">{it.lang}</span>}
-            {it.oa && <a href={it.oa} target="_blank" rel="noreferrer" className="flex items-center gap-1 text-brand hover:underline"><ExternalLink size={12} /> نص كامل مجاني</a>}
-            {it.doi && <a href={it.doi} target="_blank" rel="noreferrer" className="flex items-center gap-1 text-slate-500 hover:underline"><ExternalLink size={12} /> DOI</a>}
+            {it.oa && <a href={it.oa} target="_blank" rel="noreferrer" onClick={(e) => { e.preventDefault(); openExternal(e.currentTarget.href); }} className="flex items-center gap-1 text-brand hover:underline"><ExternalLink size={12} /> نص كامل مجاني</a>}
+            {it.doi && <a href={it.doi} target="_blank" rel="noreferrer" onClick={(e) => { e.preventDefault(); openExternal(e.currentTarget.href); }} className="flex items-center gap-1 text-slate-500 hover:underline"><ExternalLink size={12} /> DOI</a>}
           </div>
         </Card>
       ))}
